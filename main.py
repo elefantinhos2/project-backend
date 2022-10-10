@@ -1,8 +1,74 @@
+from persons.person import Person
+from utils.json_parse import JSONParser
+
+
+def get():
+
+    result =JSONParser.retrieve("database.json")
+
+    return len(result)
+
+
+def get_file():
+
+    result = JSONParser.read_file("file.txt")
+
+    return result
+
+def post_file():
+
+    Tipo   =   ""
+    Data   =   ""
+    Valor  =   ""
+    Cpf    =   ""
+    Cartao =   ""
+    Hora   =   ""
+    DonoLoja = ""
+    nomeLoja = ""
+
+    file = JSONParser.read_file("file.txt")
+
+    for line in file:
+        line = line.strip()
+        for index, letra in enumerate(line):
+            if (index < 1):
+                Tipo += letra
+            if (index >= 1 and index < 9):
+                Data += letra
+            if (index >= 9 and index < 19):
+                Valor += letra
+            if (index >= 19 and index < 30):
+                Cpf += letra
+            if (index >= 30 and index < 42):
+                Cartao += letra
+            if (index >= 42 and index < 48):
+                Hora += letra
+            if (index >= 48 and index < 62):
+                DonoLoja += letra
+            if (index >= 62 and index < 82):
+                nomeLoja += letra
+
+        person = Person(tipo=Tipo, data=Data, valor=str(int(Valor)/100), cpf=Cpf, cartao=Cartao, hora=Hora, donoDaLoja=DonoLoja, nomeDaLoja=nomeLoja)
+
+        person.save()
+
+        Tipo   = ""
+        Data   = ""
+        Valor  = ""
+        Cpf    = ""
+        Cartao = ""
+        Hora   = ""
+        DonoLoja = ""
+        nomeLoja = ""
+   
+    return get()
+
 
 def main():
 
-
-    ...
+    post_file()
+    print(f'list_lenght: {get()}')
+    
 
 if __name__ == '__main__':
     main()
