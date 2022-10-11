@@ -48,7 +48,15 @@ def post_file():
             if (index >= 62 and index < 82):
                 nomeLoja += letra
 
-        person = Person(tipo=Tipo, data=Data, valor=str(int(Valor)/100), cpf=Cpf, cartao=Cartao, hora=Hora, donoDaLoja=DonoLoja, nomeDaLoja=nomeLoja)
+        person = Person(tipo=Tipo, 
+                        data=(Data[0]+Data[1]+Data[2]+Data[3]+"-"+Data[4]+Data[5]+"-"+Data[6]+Data[7]), 
+                        valor=str(int(Valor)/100), 
+                        cpf=(Cpf[0]+Cpf[1]+Cpf[2]+"-"+Cpf[3]+Cpf[4]+Cpf[5]+"-"+Cpf[6]+Cpf[7]+Cpf[8]+"-"+Cpf[9]+Cpf[10]), 
+                        cartao=Cartao, 
+                        hora=(Hora[0]+Hora[1]+":"+Hora[2]+Hora[3]+":"+Hora[4]+Hora[5]), 
+                        donoDaLoja=DonoLoja, 
+                        nomeDaLoja=nomeLoja
+                    )
 
         person.save()
 
