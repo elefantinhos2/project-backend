@@ -68,13 +68,79 @@ def post_file():
         Hora   = ""
         DonoLoja = ""
         nomeLoja = ""
-   
+    
+    post_list_info()
+
     return get()
+
+
+def post_list_info():
+
+    result = JSONParser.retrieve("database.json")
+
+    db = JSONParser.retrieve("db_info.json")
+
+    list_length = get()
+
+    entradas = 0
+    saidas   = 0
+    valor    = 0
+
+    list = ["BAR DO JOAO", "LOJA DO O - MATRIZ",  "MERCADO DA AVENIDA", "MERCEARIA 3 IRMAOS"]
+
+    for pos in range(4):
+        for index in range(list_length):
+            if(result[index]["nomeDaLoja"] == list[pos]):
+                # print(result[index]["nomeDaLoja"])
+                if(result[index]["tipo"] == "1"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "2"):
+                    saidas += 1
+                    valor -= float(result[index]["valor"])
+                if(result[index]["tipo"] == "3"):
+                    saidas += 1
+                    valor -= float(result[index]["valor"])
+                if(result[index]["tipo"] == "4"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "5"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "6"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "7"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "8"):
+                    entradas += 1
+                    valor += float(result[index]["valor"])
+                if(result[index]["tipo"] == "9"):
+                    saidas += 1
+                    valor += float(result[index]["valor"])
+    
+                objeto = {
+                    "entradas": entradas,
+                    "saidas": saidas,
+                    "valor": int(valor),
+                    "donoDaLoja": result[index]["donoDaLoja"],
+                    "nomeDaLoja": result[index]["nomeDaLoja"]
+                }
+        db.append(objeto)
+        JSONParser.save("db_info.json", db)
+        entradas = 0
+        saidas   = 0
+        valor    = 0
+
+    return db
+
 
 
 def main():
 
     post_file()
+
     print(f'list_lenght: {get()}')
     
 
